@@ -1,8 +1,8 @@
 # Command-Line Interface - Overview
 
-The strudel-cli is a command-line tool for bootstrapping web applications based on the [STRUDEL Design System](https://strudel.science/). 
+The strudel-cli is a command-line tool for bootstrapping web applications based on the [STRUDEL Design System](https://strudel.science/).
 
-:warning: ***This library is in early-stage development. Check back soon for more updates!***
+:warning: **_This library is in early-stage development. Check back soon for more updates!_**
 
 #### How it Works
 
@@ -45,6 +45,7 @@ pip install strudel-cli
 Create a config file based on the [create-app config json](https://github.com/strudel-science/strudel-kit/blob/main/strudel-cli/CONFIGS.md#create-app-config-file):
 
 _my-app-config.json_
+
 ```js
 {
   "name": "my-strudel-app",
@@ -61,15 +62,16 @@ strudel create-app --config my-app-config.json
 Create a config file for a new task flow based on [one of the config examples](https://github.com/strudel-science/strudel-kit/blob/main/strudel-cli/CONFIGS.md#compare-data):
 
 _my-taskflow-config.json_
+
 ```js
 {
   "name": "my-taskflow",
   "template": "compare-data",
   "compareItem": "scenario",
   "compareItemPlural": "scenarios",
-  "mainPageTitle": "Compare Data App",
+  "mainPageTitle": "DEPOT Items",
   "mainPageDescription": "Description of this app section",
-  "newItemPageTitle": "Compare Data App",
+  "newItemPageTitle": "DEPOT Items",
   "newItemPageDescription": "Description of this app section",
   "comparePageDescription": "Description of this app section"
 }

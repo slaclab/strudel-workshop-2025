@@ -13,9 +13,21 @@ export const fromKebabCase = (str: string) => {
   return words.join(' ');
 };
 
+// Custom display names for specific routes
+const ROUTE_DISPLAY_NAMES: Record<string, string> = {
+  'compare-data': 'DEPOT Items',
+};
+
 export const getNameFromPath = (path: string) => {
   const pathParts = path.split('/').filter((d: string) => d);
-  return fromKebabCase(pathParts[pathParts.length - 1]);
+  const routeName = pathParts[pathParts.length - 1];
+
+  // Check if there's a custom display name for this route
+  if (ROUTE_DISPLAY_NAMES[routeName]) {
+    return ROUTE_DISPLAY_NAMES[routeName];
+  }
+
+  return fromKebabCase(routeName);
 };
 
 export const getSubRoutes = (flatRoutes: AnyRoute[], subRouteName: string) => {
