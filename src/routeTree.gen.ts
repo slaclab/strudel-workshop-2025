@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router';
 // Import Routes
 
 import { Route as rootRoute } from './pages/__root';
+import { Route as LandingImport } from './pages/landing';
 import { Route as IndexImport } from './pages/index';
 import { Route as SearchDataRepositoriesIndexImport } from './pages/search-data-repositories/index';
 import { Route as PlaygroundIndexImport } from './pages/playground/index';
@@ -20,6 +21,8 @@ import { Route as MonitorActivitiesIndexImport } from './pages/monitor-activitie
 import { Route as ExploreDataIndexImport } from './pages/explore-data/index';
 import { Route as SearchDataRepositoriesIdImport } from './pages/search-data-repositories/$id';
 import { Route as RunComputationLayoutImport } from './pages/run-computation/_layout';
+import { Route as PlaygroundItemDetailImport } from './pages/playground/item-detail';
+import { Route as PlaygroundAddItemDemoImport } from './pages/playground/add-item-demo';
 import { Route as MonitorActivitiesDetailImport } from './pages/monitor-activities/detail';
 import { Route as MonitorActivitiesCalendarImport } from './pages/monitor-activities/calendar';
 import { Route as ExploreDataIdImport } from './pages/explore-data/$id';
@@ -68,6 +71,12 @@ const CompareDataRoute = CompareDataImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
+const LandingRoute = LandingImport.update({
+  id: '/landing',
+  path: '/landing',
+  getParentRoute: () => rootRoute,
+} as any);
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -108,6 +117,18 @@ const SearchDataRepositoriesIdRoute = SearchDataRepositoriesIdImport.update({
 const RunComputationLayoutRoute = RunComputationLayoutImport.update({
   id: '/_layout',
   getParentRoute: () => RunComputationRoute,
+} as any);
+
+const PlaygroundItemDetailRoute = PlaygroundItemDetailImport.update({
+  id: '/playground/item-detail',
+  path: '/playground/item-detail',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const PlaygroundAddItemDemoRoute = PlaygroundAddItemDemoImport.update({
+  id: '/playground/add-item-demo',
+  path: '/playground/add-item-demo',
+  getParentRoute: () => rootRoute,
 } as any);
 
 const MonitorActivitiesDetailRoute = MonitorActivitiesDetailImport.update({
@@ -241,6 +262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport;
       parentRoute: typeof rootRoute;
     };
+    '/landing': {
+      id: '/landing';
+      path: '/landing';
+      fullPath: '/landing';
+      preLoaderRoute: typeof LandingImport;
+      parentRoute: typeof rootRoute;
+    };
     '/compare-data': {
       id: '/compare-data';
       path: '/compare-data';
@@ -288,6 +316,20 @@ declare module '@tanstack/react-router' {
       path: '/monitor-activities/detail';
       fullPath: '/monitor-activities/detail';
       preLoaderRoute: typeof MonitorActivitiesDetailImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/playground/add-item-demo': {
+      id: '/playground/add-item-demo';
+      path: '/playground/add-item-demo';
+      fullPath: '/playground/add-item-demo';
+      preLoaderRoute: typeof PlaygroundAddItemDemoImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/playground/item-detail': {
+      id: '/playground/item-detail';
+      path: '/playground/item-detail';
+      fullPath: '/playground/item-detail';
+      preLoaderRoute: typeof PlaygroundItemDetailImport;
       parentRoute: typeof rootRoute;
     };
     '/run-computation': {
@@ -564,11 +606,14 @@ const RunComputationRouteWithChildren = RunComputationRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
+  '/landing': typeof LandingRoute;
   '/compare-data': typeof CompareDataLayoutRouteWithChildren;
   '/contribute-data': typeof ContributeDataLayoutRouteWithChildren;
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
+  '/playground/add-item-demo': typeof PlaygroundAddItemDemoRoute;
+  '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
@@ -592,11 +637,14 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
+  '/landing': typeof LandingRoute;
   '/compare-data': typeof CompareDataLayoutIndexRoute;
   '/contribute-data': typeof ContributeDataLayoutIndexRoute;
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
+  '/playground/add-item-demo': typeof PlaygroundAddItemDemoRoute;
+  '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationLayoutIndexRoute;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
@@ -618,6 +666,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute;
   '/': typeof IndexRoute;
+  '/landing': typeof LandingRoute;
   '/compare-data': typeof CompareDataRouteWithChildren;
   '/compare-data/_layout': typeof CompareDataLayoutRouteWithChildren;
   '/contribute-data': typeof ContributeDataRouteWithChildren;
@@ -625,6 +674,8 @@ export interface FileRoutesById {
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
+  '/playground/add-item-demo': typeof PlaygroundAddItemDemoRoute;
+  '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationRouteWithChildren;
   '/run-computation/_layout': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
@@ -652,11 +703,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
+    | '/landing'
     | '/compare-data'
     | '/contribute-data'
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
+    | '/playground/add-item-demo'
+    | '/playground/item-detail'
     | '/run-computation'
     | '/search-data-repositories/$id'
     | '/explore-data'
@@ -679,11 +733,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
+    | '/landing'
     | '/compare-data'
     | '/contribute-data'
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
+    | '/playground/add-item-demo'
+    | '/playground/item-detail'
     | '/run-computation'
     | '/search-data-repositories/$id'
     | '/explore-data'
@@ -703,6 +760,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/landing'
     | '/compare-data'
     | '/compare-data/_layout'
     | '/contribute-data'
@@ -710,6 +768,8 @@ export interface FileRouteTypes {
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
+    | '/playground/add-item-demo'
+    | '/playground/item-detail'
     | '/run-computation'
     | '/run-computation/_layout'
     | '/search-data-repositories/$id'
@@ -736,11 +796,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  LandingRoute: typeof LandingRoute;
   CompareDataRoute: typeof CompareDataRouteWithChildren;
   ContributeDataRoute: typeof ContributeDataRouteWithChildren;
   ExploreDataIdRoute: typeof ExploreDataIdRoute;
   MonitorActivitiesCalendarRoute: typeof MonitorActivitiesCalendarRoute;
   MonitorActivitiesDetailRoute: typeof MonitorActivitiesDetailRoute;
+  PlaygroundAddItemDemoRoute: typeof PlaygroundAddItemDemoRoute;
+  PlaygroundItemDetailRoute: typeof PlaygroundItemDetailRoute;
   RunComputationRoute: typeof RunComputationRouteWithChildren;
   SearchDataRepositoriesIdRoute: typeof SearchDataRepositoriesIdRoute;
   ExploreDataIndexRoute: typeof ExploreDataIndexRoute;
@@ -751,11 +814,14 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LandingRoute: LandingRoute,
   CompareDataRoute: CompareDataRouteWithChildren,
   ContributeDataRoute: ContributeDataRouteWithChildren,
   ExploreDataIdRoute: ExploreDataIdRoute,
   MonitorActivitiesCalendarRoute: MonitorActivitiesCalendarRoute,
   MonitorActivitiesDetailRoute: MonitorActivitiesDetailRoute,
+  PlaygroundAddItemDemoRoute: PlaygroundAddItemDemoRoute,
+  PlaygroundItemDetailRoute: PlaygroundItemDetailRoute,
   RunComputationRoute: RunComputationRouteWithChildren,
   SearchDataRepositoriesIdRoute: SearchDataRepositoriesIdRoute,
   ExploreDataIndexRoute: ExploreDataIndexRoute,
@@ -775,11 +841,14 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/landing",
         "/compare-data",
         "/contribute-data",
         "/explore-data/$id",
         "/monitor-activities/calendar",
         "/monitor-activities/detail",
+        "/playground/add-item-demo",
+        "/playground/item-detail",
         "/run-computation",
         "/search-data-repositories/$id",
         "/explore-data/",
@@ -790,6 +859,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/landing": {
+      "filePath": "landing.tsx"
     },
     "/compare-data": {
       "filePath": "compare-data",
@@ -830,6 +902,12 @@ export const routeTree = rootRoute
     },
     "/monitor-activities/detail": {
       "filePath": "monitor-activities/detail.tsx"
+    },
+    "/playground/add-item-demo": {
+      "filePath": "playground/add-item-demo.tsx"
+    },
+    "/playground/item-detail": {
+      "filePath": "playground/item-detail.tsx"
     },
     "/run-computation": {
       "filePath": "run-computation",

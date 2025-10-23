@@ -1,5 +1,5 @@
 import { Button, Container, Stack } from '@mui/material';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 
 export const Route = createFileRoute('/playground/')({
@@ -33,6 +33,25 @@ function Playground() {
        */}
       <h1>Playground</h1>
       <p>Testing commits</p>
+      <Stack
+        direction="column"
+        spacing={3}
+        sx={{
+          alignItems: 'flex-start',
+          marginBottom: 4,
+        }}
+      >
+        <Link to="/playground/add-item-demo">
+          <Button variant="contained" color="primary">
+            View Add Item Dialog Demo
+          </Button>
+        </Link>
+        <Link to="/playground/item-detail">
+          <Button variant="contained" color="primary">
+            View Item Detail Page
+          </Button>
+        </Link>
+      </Stack>
       <Stack
         direction="row"
         spacing={2}

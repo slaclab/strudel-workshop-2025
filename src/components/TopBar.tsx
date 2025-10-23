@@ -1,5 +1,13 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { AppBar, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Stack,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { cleanPath } from '../utils/queryParams.utils';
 import { AppLink } from './AppLink';
@@ -24,11 +32,17 @@ export const TopBar: React.FC = () => {
       <Toolbar>
         <Stack
           direction="row"
+          spacing={2}
           sx={{
             alignItems: 'center',
             flexGrow: 1,
           }}
         >
+          <AppLink to="/landing">
+            <Button startIcon={<HomeIcon />} variant="outlined" size="small">
+              All Pages
+            </Button>
+          </AppLink>
           <AppLink to="/">
             <ImageWrapper height={30}>
               <img
