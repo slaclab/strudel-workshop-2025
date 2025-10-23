@@ -70,9 +70,9 @@ function DataExplorer() {
       <Box>
         <PageHeader
           // CUSTOMIZE: the page title
-          pageTitle="Explore Data App"
+          pageTitle="Explore DEPOT Data"
           // CUSTOMIZE: the page description
-          description="Description of this app"
+          description="View entries in DEPOT"
           sx={{
             marginBottom: 1,
             padding: 2,
