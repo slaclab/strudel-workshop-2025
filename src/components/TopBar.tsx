@@ -44,17 +44,13 @@ export const TopBar: React.FC = () => {
             </Button>
           </AppLink>
           <AppLink to="/">
-            <ImageWrapper height={30}>
-              <img
-                src={cleanPath(
-                  `${import.meta.env.BASE_URL}/strudel-logo-icon.png`
-                )}
-              />
+            <ImageWrapper height={60}>
+              <img src={cleanPath(`${import.meta.env.BASE_URL}/slac.png`)} />
             </ImageWrapper>
           </AppLink>
           <AppLink to="/">
             <Typography variant="h6" component="div" fontWeight="bold">
-              SLAC DEPOT Prototype
+              DEPOT Prototype
             </Typography>
           </AppLink>
         </Stack>
