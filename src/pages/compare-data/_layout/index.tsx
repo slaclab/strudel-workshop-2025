@@ -26,7 +26,7 @@ function ScenarioList() {
   const handleRowClick = (params: any) => {
     // Navigate to item detail page with the row data as search params
     navigate({
-      to: '/playground/item-detail',
+      to: '/compare-data/item-detail',
       search: { data: JSON.stringify(params.row) },
     });
   };

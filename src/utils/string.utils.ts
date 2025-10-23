@@ -16,6 +16,7 @@ export const fromKebabCase = (str: string) => {
 // Custom display names for specific routes
 const ROUTE_DISPLAY_NAMES: Record<string, string> = {
   'compare-data': 'DEPOT Items',
+  'eeip-reports': 'EEIP Reports',
 };
 
 export const getNameFromPath = (path: string) => {
