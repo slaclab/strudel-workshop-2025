@@ -72,27 +72,6 @@ function Landing() {
         <Stack spacing={3}>
           <Box>
             <Grid container spacing={1}>
-              <Grid item sm={6}>
-                <AppLink to="/">
-                  <PaperWithHover>
-                    <Stack>
-                      <Typography
-                        variant="h5"
-                        component="h3"
-                        fontWeight="bold"
-                        color="primary.main"
-                      >
-                        Home
-                      </Typography>
-                      <Box>
-                        <Typography fontSize="small">
-                          <code>{`/src/pages/index.tsx`}</code>
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  </PaperWithHover>
-                </AppLink>
-              </Grid>
               {topLevelRoutes.map((route) => (
                 <Grid key={route.id} item sm={6}>
                   <AppLink to={route.fullPath}>
