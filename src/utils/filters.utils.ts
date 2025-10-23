@@ -102,19 +102,39 @@ export const filterByDataFilters = (
               if (
                 typeof d[f.field] === 'string' &&
                 Array.isArray(f.value) &&
-                f.value[0] &&
-                f.value[1]
+                (f.value[0] || f.value[1])
               ) {
                 const dateValue = dayjs(d[f.field]);
-                const startDate = dayjs(f.value[0]);
-                const endDate = dayjs(f.value[1]);
-                if (
-                  (dateValue.isAfter(startDate) ||
-                    dateValue.isSame(startDate, 'day')) &&
-                  (dateValue.isBefore(endDate) ||
-                    dateValue.isSame(endDate, 'day'))
-                ) {
-                  match = true;
+                const startDate = f.value[0] ? dayjs(f.value[0]) : null;
+                const endDate = f.value[1] ? dayjs(f.value[1]) : null;
+
+                // Handle three cases: both dates, only start, or only end
+                if (startDate && endDate) {
+                  // Both dates set - filter between them (inclusive)
+                  if (
+                    (dateValue.isAfter(startDate) ||
+                      dateValue.isSame(startDate, 'day')) &&
+                    (dateValue.isBefore(endDate) ||
+                      dateValue.isSame(endDate, 'day'))
+                  ) {
+                    match = true;
+                  }
+                } else if (startDate) {
+                  // Only start date set - filter dates on or after start
+                  if (
+                    dateValue.isAfter(startDate) ||
+                    dateValue.isSame(startDate, 'day')
+                  ) {
+                    match = true;
+                  }
+                } else if (endDate) {
+                  // Only end date set - filter dates on or before end
+                  if (
+                    dateValue.isBefore(endDate) ||
+                    dateValue.isSame(endDate, 'day')
+                  ) {
+                    match = true;
+                  }
                 }
               } else {
                 match = true;

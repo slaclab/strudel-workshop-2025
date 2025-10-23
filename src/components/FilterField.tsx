@@ -262,7 +262,7 @@ export const FilterField: React.FC<FilterFieldProps> = ({
       {...rest}
     >
       <Collapsible
-        isOpen={true}
+        isOpen={false}
         label={
           <Stack
             direction="row"

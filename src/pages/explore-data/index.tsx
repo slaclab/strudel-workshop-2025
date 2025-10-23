@@ -1,9 +1,12 @@
 import { Box, Paper, Stack } from '@mui/material';
 import { createFileRoute } from '@tanstack/react-router';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FilterContext } from '../../components/FilterContext';
 import { PageHeader } from '../../components/PageHeader';
 import { FilterConfig } from '../../types/filters.types';
+import { useListQuery } from '../../hooks/useListQuery';
+import { useFilterOptions } from '../../hooks/useFilterOptions';
+import { useDateRangeBounds } from '../../hooks/useDateRangeBounds';
 import { DataView } from './-components/DataView';
 import { DataViewHeader } from './-components/DataViewHeader';
 import { FiltersPanel } from './-components/FiltersPanel';
@@ -12,36 +15,6 @@ import { PreviewPanel } from './-components/PreviewPanel';
 export const Route = createFileRoute('/explore-data/')({
   component: DataExplorer,
 });
-
-// CUSTOMIZE: the filter definitions
-const filterConfigs: FilterConfig[] = [
-  {
-    field: 'State',
-    label: 'State',
-    operator: 'contains-one-of',
-    filterComponent: 'CheckboxList',
-    filterProps: {
-      options: [
-        {
-          label: 'New',
-          value: 'NEW',
-        },
-        {
-          label: 'Ready',
-          value: 'READY',
-        },
-        {
-          label: 'Spare',
-          value: 'SPARE',
-        },
-        {
-          label: 'Maintenance',
-          value: 'MAINT',
-        },
-      ],
-    },
-  },
-];
 
 /**
  * Main explorer page in the explore-data Task Flow.
@@ -53,6 +26,91 @@ function DataExplorer() {
   const [searchColumn, setSearchColumn] = useState('all');
   const [previewItem, setPreviewItem] = useState<any>();
   const [showFiltersPanel, setShowFiltersPanel] = useState(true);
+
+  // Fetch data to generate dynamic filter options
+  const { data } = useListQuery({
+    activeFilters: [],
+    dataSource: 'data/DEPOT (last year).csv',
+    filterConfigs: [],
+    offset: 0,
+    page: 0,
+    pageSize: 1000, // Fetch all data to get complete filter options
+    queryMode: 'client',
+    staticParams: null,
+  });
+
+  // Generate dynamic filter options for each field
+  const locationOptions = useFilterOptions({ data, field: 'Location' });
+  const stateOptions = useFilterOptions({ data, field: 'State' });
+  const manufacturerOptions = useFilterOptions({ data, field: 'Makername' });
+  const subsystemOptions = useFilterOptions({ data, field: 'Subsystem' });
+
+  // Get date range bounds for LastDate filter
+  const [minDate, maxDate] = useDateRangeBounds({
+    data,
+    field: 'LastDate',
+    dateFormat: 'MM/DD/YY',
+  });
+
+  // CUSTOMIZE: the filter definitions with dynamic options
+  const filterConfigs: FilterConfig[] = useMemo(
+    () => [
+      {
+        field: 'Location',
+        label: 'Location',
+        operator: 'contains-one-of',
+        filterComponent: 'CheckboxList',
+        filterProps: {
+          options: locationOptions,
+        },
+      },
+      {
+        field: 'State',
+        label: 'State',
+        operator: 'contains-one-of',
+        filterComponent: 'CheckboxList',
+        filterProps: {
+          options: stateOptions,
+        },
+      },
+      {
+        field: 'Makername',
+        label: 'Manufacturer',
+        operator: 'contains-one-of',
+        filterComponent: 'CheckboxList',
+        filterProps: {
+          options: manufacturerOptions,
+        },
+      },
+      {
+        field: 'Subsystem',
+        label: 'Subsystem',
+        operator: 'contains-one-of',
+        filterComponent: 'CheckboxList',
+        filterProps: {
+          options: subsystemOptions,
+        },
+      },
+      {
+        field: 'LastDate',
+        label: 'Last Date',
+        operator: 'between-dates-inclusive',
+        filterComponent: 'DateRange',
+        filterProps: {
+          min: minDate,
+          max: maxDate,
+        },
+      },
+    ],
+    [
+      locationOptions,
+      stateOptions,
+      manufacturerOptions,
+      subsystemOptions,
+      minDate,
+      maxDate,
+    ]
+  );
 
   const handleCloseFilters = () => {
     setShowFiltersPanel(false);
