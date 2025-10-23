@@ -54,10 +54,10 @@ function Landing() {
         <Container maxWidth="lg" sx={{ height: '100%' }}>
           <Stack alignItems="center" justifyContent="center" height="100%">
             <ImageWrapper height={60}>
-              <img src="strudel-logo-icon.png" />
+              <img src="SLAC_primary_red.png" />
             </ImageWrapper>
             <Typography variant="h6" component="h1">
-              You just started an app with STRUDEL!
+              Welcome to the DEPOT prototype!
             </Typography>
           </Stack>
         </Container>
