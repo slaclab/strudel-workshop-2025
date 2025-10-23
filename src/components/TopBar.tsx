@@ -1,4 +1,5 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import HomeIcon from '@mui/icons-material/Home';
 import {
   AppBar,
@@ -54,9 +55,20 @@ export const TopBar: React.FC = () => {
             </Typography>
           </AppLink>
         </Stack>
-        <IconButton size="large" edge="start" color="inherit">
-          <AccountCircleIcon />
-        </IconButton>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <AppLink to="/admin">
+            <Button
+              startIcon={<AdminPanelSettingsIcon />}
+              variant="outlined"
+              size="small"
+            >
+              Admin
+            </Button>
+          </AppLink>
+          <IconButton size="large" edge="start" color="inherit">
+            <AccountCircleIcon />
+          </IconButton>
+        </Stack>
       </Toolbar>
     </AppBar>
   );

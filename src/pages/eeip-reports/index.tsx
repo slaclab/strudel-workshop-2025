@@ -20,7 +20,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { createFileRoute } from '@tanstack/react-router';
 import { useDataFromSource } from '../../hooks/useDataFromSource';
 
-export const Route = createFileRoute('/eeip-reports/')({
+export const Route = createFileRoute('/EEIP-reports/')({
   component: EEIPReportsList,
 });
 
