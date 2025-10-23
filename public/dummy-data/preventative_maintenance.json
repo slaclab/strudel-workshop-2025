@@ -2,7 +2,7 @@
   {
     "id": "pm-001",
     "title": "Camera Lens Cleaning",
-    "item_id": "CAM-001",
+    "item_id": "PCD13230",
     "item_name": "High-Speed Camera A",
     "status": "ACTIVE",
     "repeat_number": 2,
@@ -16,7 +16,7 @@
   {
     "id": "pm-002",
     "title": "Calibration Check",
-    "item_id": "OSC-002",
+    "item_id": "PCD13233",
     "item_name": "Oscilloscope B",
     "status": "COMPLETE",
     "repeat_number": 1,
@@ -30,7 +30,7 @@
   {
     "id": "pm-003",
     "title": "Filter Replacement",
-    "item_id": "AQM-003",
+    "item_id": "18064141",
     "item_name": "Air Quality Monitor",
     "status": "ACTIVE",
     "repeat_number": 3,
@@ -44,7 +44,7 @@
   {
     "id": "pm-004",
     "title": "Battery Check",
-    "item_id": "GEN-004",
+    "item_id": "18064147",
     "item_name": "Portable Generator",
     "status": "ACTIVE",
     "repeat_number": 6,
@@ -58,7 +58,7 @@
   {
     "id": "pm-005",
     "title": "Software Update",
-    "item_id": "DAS-005",
+    "item_id": "18064157",
     "item_name": "Data Acquisition System",
     "status": "INACTIVE",
     "repeat_number": 1,
@@ -72,7 +72,7 @@
   {
     "id": "pm-006",
     "title": "Vacuum Pump Maintenance",
-    "item_id": "EMS-006",
+    "item_id": "18064157",
     "item_name": "Electron Microscope",
     "status": "ACTIVE",
     "repeat_number": 1,
@@ -86,7 +86,7 @@
   {
     "id": "pm-007",
     "title": "Temperature Sensor Calibration",
-    "item_id": "CLM-007",
+    "item_id": "18064161",
     "item_name": "Climate Chamber",
     "status": "CANCEL",
     "repeat_number": 6,
@@ -100,7 +100,7 @@
   {
     "id": "pm-008",
     "title": "Safety Inspection",
-    "item_id": "LSR-008",
+    "item_id": "18064164",
     "item_name": "Laser Cutter",
     "status": "ACTIVE",
     "repeat_number": 3,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -16,34 +16,31 @@ import {
   ToggleButtonGroup,
   Typography,
   Stack,
+  Autocomplete,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { useAppState } from '../context/ContextProvider';
 import { addPreventativeMaintenance } from '../context/actions';
+import { useDataFromSource } from '../hooks/useDataFromSource';
 
 interface AddPreventativeMaintenanceDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-// Item mapping to get names
-const ITEM_MAP: Record<string, string> = {
-  'CAM-001': 'High-Speed Camera A',
-  'OSC-002': 'Oscilloscope B',
-  'AQM-003': 'Air Quality Monitor',
-  'GEN-004': 'Portable Generator',
-  'DAS-005': 'Data Acquisition System',
-  'EMS-006': 'Electron Microscope',
-  'CLM-007': 'Climate Chamber',
-  'LSR-008': 'Laser Cutter',
-};
+interface ItemOption {
+  id: string;
+  name: string;
+  label: string;
+}
 
 export const AddPreventativeMaintenanceDialog: React.FC<
   AddPreventativeMaintenanceDialogProps
 > = ({ open, onClose }) => {
   const { dispatch } = useAppState();
-  const [item, setItem] = useState('');
+  const depotData = useDataFromSource('data/DEPOT (last year).csv');
+  const [item, setItem] = useState<ItemOption | null>(null);
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('ACTIVE');
   const [repeatNumber, setRepeatNumber] = useState('2');
@@ -52,6 +49,17 @@ export const AddPreventativeMaintenanceDialog: React.FC<
   const [dateDue, setDateDue] = useState('');
   const [personResponsible, setPersonResponsible] = useState('');
   const [instructions, setInstructions] = useState('');
+
+  // Create item options from DEPOT data
+  const itemOptions = useMemo<ItemOption[]>(() => {
+    if (!depotData) return [];
+
+    return depotData.map((depotItem: any) => ({
+      id: depotItem.ID,
+      name: depotItem.Nickname || depotItem.ID,
+      label: `${depotItem.ID} | ${depotItem.Nickname || 'Unknown'}`,
+    }));
+  }, [depotData]);
 
   const handleSubmit = () => {
     // Validate required fields
@@ -67,8 +75,8 @@ export const AddPreventativeMaintenanceDialog: React.FC<
     const newItem = {
       id,
       title,
-      item_id: item,
-      item_name: ITEM_MAP[item],
+      item_id: item.id,
+      item_name: item.name,
       status,
       repeat_number: parseInt(repeatNumber),
       repeat_unit: repeatUnit,
@@ -87,7 +95,7 @@ export const AddPreventativeMaintenanceDialog: React.FC<
 
   const handleCancel = () => {
     // Reset form and close
-    setItem('');
+    setItem(null);
     setTitle('');
     setStatus('ACTIVE');
     setRepeatNumber('2');
@@ -117,29 +125,24 @@ export const AddPreventativeMaintenanceDialog: React.FC<
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: 1 }}>
           {/* Item */}
-          <FormControl fullWidth required>
-            <InputLabel id="item-label">Item</InputLabel>
-            <Select
-              labelId="item-label"
-              value={item}
-              label="Item"
-              onChange={(e) => setItem(e.target.value)}
-            >
-              <MenuItem value="">
-                <em>Select an item</em>
-              </MenuItem>
-              <MenuItem value="CAM-001">CAM-001 - High-Speed Camera A</MenuItem>
-              <MenuItem value="OSC-002">OSC-002 - Oscilloscope B</MenuItem>
-              <MenuItem value="AQM-003">AQM-003 - Air Quality Monitor</MenuItem>
-              <MenuItem value="GEN-004">GEN-004 - Portable Generator</MenuItem>
-              <MenuItem value="DAS-005">
-                DAS-005 - Data Acquisition System
-              </MenuItem>
-              <MenuItem value="EMS-006">EMS-006 - Electron Microscope</MenuItem>
-              <MenuItem value="CLM-007">CLM-007 - Climate Chamber</MenuItem>
-              <MenuItem value="LSR-008">LSR-008 - Laser Cutter</MenuItem>
-            </Select>
-          </FormControl>
+          <Autocomplete
+            value={item}
+            onChange={(event, newValue) => {
+              setItem(newValue);
+            }}
+            options={itemOptions}
+            getOptionLabel={(option) => option.label}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Item"
+                required
+                placeholder="Search for an item..."
+              />
+            )}
+            fullWidth
+          />
 
           {/* Title */}
           <TextField
