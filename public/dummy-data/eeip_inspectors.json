@@ -1,0 +1,74 @@
+[
+    {
+        "person_id": "P001",
+        "name": "John Smith",
+        "sid_status": "Active",
+        "short_desc": "Senior Inspector",
+        "course_num": "EEIP-101",
+        "email": "john.smith@example.com",
+        "phone": "(555) 123-4567"
+    },
+    {
+        "person_id": "P002",
+        "name": "Sarah Johnson",
+        "sid_status": "Active",
+        "short_desc": "Lead Inspector",
+        "course_num": "EEIP-201",
+        "email": "sarah.johnson@example.com",
+        "phone": "(555) 234-5678"
+    },
+    {
+        "person_id": "P003",
+        "name": "Michael Chen",
+        "sid_status": "Active",
+        "short_desc": "Inspector",
+        "course_num": "EEIP-101",
+        "email": "michael.chen@example.com",
+        "phone": "(555) 345-6789"
+    },
+    {
+        "person_id": "P004",
+        "name": "Emily Rodriguez",
+        "sid_status": "Inactive",
+        "short_desc": "Junior Inspector",
+        "course_num": "EEIP-101",
+        "email": "emily.rodriguez@example.com",
+        "phone": "(555) 456-7890"
+    },
+    {
+        "person_id": "P005",
+        "name": "David Thompson",
+        "sid_status": "Active",
+        "short_desc": "Senior Inspector",
+        "course_num": "EEIP-301",
+        "email": "david.thompson@example.com",
+        "phone": "(555) 567-8901"
+    },
+    {
+        "person_id": "P006",
+        "name": "Lisa Anderson",
+        "sid_status": "Active",
+        "short_desc": "Inspector",
+        "course_num": "EEIP-201",
+        "email": "lisa.anderson@example.com",
+        "phone": "(555) 678-9012"
+    },
+    {
+        "person_id": "P007",
+        "name": "Robert Martinez",
+        "sid_status": "Active",
+        "short_desc": "Lead Inspector",
+        "course_num": "EEIP-301",
+        "email": "robert.martinez@example.com",
+        "phone": "(555) 789-0123"
+    },
+    {
+        "person_id": "P008",
+        "name": "Jennifer Lee",
+        "sid_status": "Inactive",
+        "short_desc": "Inspector",
+        "course_num": "EEIP-101",
+        "email": "jennifer.lee@example.com",
+        "phone": "(555) 890-1234"
+    }
+]

@@ -19,6 +19,7 @@ import { Route as SearchDataRepositoriesIndexImport } from './pages/search-data-
 import { Route as PlaygroundIndexImport } from './pages/playground/index';
 import { Route as MonitorActivitiesIndexImport } from './pages/monitor-activities/index';
 import { Route as ExploreDataIndexImport } from './pages/explore-data/index';
+import { Route as EeipReportsIndexImport } from './pages/eeip-reports/index';
 import { Route as AdminIndexImport } from './pages/admin/index';
 import { Route as SearchDataRepositoriesIdImport } from './pages/search-data-repositories/$id';
 import { Route as RunComputationLayoutImport } from './pages/run-computation/_layout';
@@ -107,6 +108,12 @@ const MonitorActivitiesIndexRoute = MonitorActivitiesIndexImport.update({
 const ExploreDataIndexRoute = ExploreDataIndexImport.update({
   id: '/explore-data/',
   path: '/explore-data/',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const EeipReportsIndexRoute = EeipReportsIndexImport.update({
+  id: '/eeip-reports/',
+  path: '/eeip-reports/',
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -382,6 +389,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexImport;
       parentRoute: typeof rootRoute;
     };
+    '/eeip-reports/': {
+      id: '/eeip-reports/';
+      path: '/eeip-reports';
+      fullPath: '/eeip-reports';
+      preLoaderRoute: typeof EeipReportsIndexImport;
+      parentRoute: typeof rootRoute;
+    };
     '/explore-data/': {
       id: '/explore-data/';
       path: '/explore-data';
@@ -647,6 +661,7 @@ export interface FileRoutesByFullPath {
   '/run-computation': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
   '/admin': typeof AdminIndexRoute;
+  '/eeip-reports': typeof EeipReportsIndexRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
   '/monitor-activities': typeof MonitorActivitiesIndexRoute;
   '/playground': typeof PlaygroundIndexRoute;
@@ -680,6 +695,7 @@ export interface FileRoutesByTo {
   '/run-computation': typeof RunComputationLayoutIndexRoute;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
   '/admin': typeof AdminIndexRoute;
+  '/eeip-reports': typeof EeipReportsIndexRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
   '/monitor-activities': typeof MonitorActivitiesIndexRoute;
   '/playground': typeof PlaygroundIndexRoute;
@@ -714,6 +730,7 @@ export interface FileRoutesById {
   '/run-computation/_layout': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
   '/admin/': typeof AdminIndexRoute;
+  '/eeip-reports/': typeof EeipReportsIndexRoute;
   '/explore-data/': typeof ExploreDataIndexRoute;
   '/monitor-activities/': typeof MonitorActivitiesIndexRoute;
   '/playground/': typeof PlaygroundIndexRoute;
@@ -750,6 +767,7 @@ export interface FileRouteTypes {
     | '/run-computation'
     | '/search-data-repositories/$id'
     | '/admin'
+    | '/eeip-reports'
     | '/explore-data'
     | '/monitor-activities'
     | '/playground'
@@ -782,6 +800,7 @@ export interface FileRouteTypes {
     | '/run-computation'
     | '/search-data-repositories/$id'
     | '/admin'
+    | '/eeip-reports'
     | '/explore-data'
     | '/monitor-activities'
     | '/playground'
@@ -814,6 +833,7 @@ export interface FileRouteTypes {
     | '/run-computation/_layout'
     | '/search-data-repositories/$id'
     | '/admin/'
+    | '/eeip-reports/'
     | '/explore-data/'
     | '/monitor-activities/'
     | '/playground/'
@@ -849,6 +869,7 @@ export interface RootRouteChildren {
   RunComputationRoute: typeof RunComputationRouteWithChildren;
   SearchDataRepositoriesIdRoute: typeof SearchDataRepositoriesIdRoute;
   AdminIndexRoute: typeof AdminIndexRoute;
+  EeipReportsIndexRoute: typeof EeipReportsIndexRoute;
   ExploreDataIndexRoute: typeof ExploreDataIndexRoute;
   MonitorActivitiesIndexRoute: typeof MonitorActivitiesIndexRoute;
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute;
@@ -870,6 +891,7 @@ const rootRouteChildren: RootRouteChildren = {
   RunComputationRoute: RunComputationRouteWithChildren,
   SearchDataRepositoriesIdRoute: SearchDataRepositoriesIdRoute,
   AdminIndexRoute: AdminIndexRoute,
+  EeipReportsIndexRoute: EeipReportsIndexRoute,
   ExploreDataIndexRoute: ExploreDataIndexRoute,
   MonitorActivitiesIndexRoute: MonitorActivitiesIndexRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
@@ -899,6 +921,7 @@ export const routeTree = rootRoute
         "/run-computation",
         "/search-data-repositories/$id",
         "/admin/",
+        "/eeip-reports/",
         "/explore-data/",
         "/monitor-activities/",
         "/playground/",
@@ -979,6 +1002,9 @@ export const routeTree = rootRoute
     },
     "/admin/": {
       "filePath": "admin/index.tsx"
+    },
+    "/eeip-reports/": {
+      "filePath": "eeip-reports/index.tsx"
     },
     "/explore-data/": {
       "filePath": "explore-data/index.tsx"
