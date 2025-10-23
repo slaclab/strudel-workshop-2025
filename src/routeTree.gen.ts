@@ -16,6 +16,7 @@ import { Route as rootRoute } from './pages/__root';
 import { Route as LandingImport } from './pages/landing';
 import { Route as IndexImport } from './pages/index';
 import { Route as EeipReportsIndexImport } from './pages/eeip-reports/index';
+import { Route as PreventativeMaintenanceIndexImport } from './pages/preventative-maintenance/index';
 import { Route as AdminIndexImport } from './pages/admin/index';
 import { Route as CompareDataLayoutImport } from './pages/compare-data/_layout';
 import { Route as CompareDataLayoutIndexImport } from './pages/compare-data/_layout/index';
@@ -51,6 +52,13 @@ const EeipReportsIndexRoute = EeipReportsIndexImport.update({
   path: '/eeip-reports/',
   getParentRoute: () => rootRoute,
 } as any);
+
+const PreventativeMaintenanceIndexRoute =
+  PreventativeMaintenanceIndexImport.update({
+    id: '/preventative-maintenance/',
+    path: '/preventative-maintenance/',
+    getParentRoute: () => rootRoute,
+  } as any);
 
 const AdminIndexRoute = AdminIndexImport.update({
   id: '/admin/',
@@ -127,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EeipReportsIndexImport;
       parentRoute: typeof rootRoute;
     };
+    '/preventative-maintenance/': {
+      id: '/preventative-maintenance/';
+      path: '/preventative-maintenance';
+      fullPath: '/preventative-maintenance';
+      preLoaderRoute: typeof PreventativeMaintenanceIndexImport;
+      parentRoute: typeof rootRoute;
+    };
     '/compare-data/_layout/compare': {
       id: '/compare-data/_layout/compare';
       path: '/compare';
@@ -186,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/compare-data': typeof CompareDataLayoutRouteWithChildren;
   '/admin': typeof AdminIndexRoute;
   '/eeip-reports': typeof EeipReportsIndexRoute;
+  '/preventative-maintenance': typeof PreventativeMaintenanceIndexRoute;
   '/compare-data/compare': typeof CompareDataLayoutCompareRoute;
   '/compare-data/new': typeof CompareDataLayoutNewRoute;
   '/compare-data/': typeof CompareDataLayoutIndexRoute;
@@ -197,6 +213,7 @@ export interface FileRoutesByTo {
   '/compare-data': typeof CompareDataLayoutIndexRoute;
   '/admin': typeof AdminIndexRoute;
   '/eeip-reports': typeof EeipReportsIndexRoute;
+  '/preventative-maintenance': typeof PreventativeMaintenanceIndexRoute;
   '/compare-data/compare': typeof CompareDataLayoutCompareRoute;
   '/compare-data/new': typeof CompareDataLayoutNewRoute;
 }
@@ -209,6 +226,7 @@ export interface FileRoutesById {
   '/compare-data/_layout': typeof CompareDataLayoutRouteWithChildren;
   '/admin/': typeof AdminIndexRoute;
   '/eeip-reports/': typeof EeipReportsIndexRoute;
+  '/preventative-maintenance/': typeof PreventativeMaintenanceIndexRoute;
   '/compare-data/_layout/compare': typeof CompareDataLayoutCompareRoute;
   '/compare-data/_layout/new': typeof CompareDataLayoutNewRoute;
   '/compare-data/_layout/': typeof CompareDataLayoutIndexRoute;
@@ -222,6 +240,7 @@ export interface FileRouteTypes {
     | '/compare-data'
     | '/admin'
     | '/eeip-reports'
+    | '/preventative-maintenance'
     | '/compare-data/compare'
     | '/compare-data/new'
     | '/compare-data/';
@@ -232,6 +251,7 @@ export interface FileRouteTypes {
     | '/compare-data'
     | '/admin'
     | '/eeip-reports'
+    | '/preventative-maintenance'
     | '/compare-data/compare'
     | '/compare-data/new';
   id:
@@ -242,6 +262,7 @@ export interface FileRouteTypes {
     | '/compare-data/_layout'
     | '/admin/'
     | '/eeip-reports/'
+    | '/preventative-maintenance/'
     | '/compare-data/_layout/compare'
     | '/compare-data/_layout/new'
     | '/compare-data/_layout/';
@@ -254,6 +275,7 @@ export interface RootRouteChildren {
   CompareDataRoute: typeof CompareDataRouteWithChildren;
   AdminIndexRoute: typeof AdminIndexRoute;
   EeipReportsIndexRoute: typeof EeipReportsIndexRoute;
+  PreventativeMaintenanceIndexRoute: typeof PreventativeMaintenanceIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -262,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompareDataRoute: CompareDataRouteWithChildren,
   AdminIndexRoute: AdminIndexRoute,
   EeipReportsIndexRoute: EeipReportsIndexRoute,
+  PreventativeMaintenanceIndexRoute: PreventativeMaintenanceIndexRoute,
 };
 
 export const routeTree = rootRoute
@@ -279,6 +302,7 @@ export const routeTree = rootRoute
         "/compare-data",
         "/admin/",
         "/eeip-reports/"
+        "/preventative-maintenance/",
       ]
     },
     "/": {
@@ -307,6 +331,9 @@ export const routeTree = rootRoute
     },
     "/eeip-reports/": {
       "filePath": "eeip-reports/index.tsx"
+    },
+    "/preventative-maintenance/": {
+      "filePath": "preventative-maintenance/index.tsx"
     },
     "/compare-data/_layout/compare": {
       "filePath": "compare-data/_layout/compare.tsx",

@@ -17,9 +17,7 @@ import { useDataFromSource } from '../../hooks/useDataFromSource';
 import { AddPreventativeMaintenanceDialog } from '../../components/AddPreventativeMaintenanceDialog';
 import { useAppState } from '../../context/ContextProvider';
 
-export const Route = createFileRoute(
-  '/monitor-activities/preventative-maintenance'
-)({
+export const Route = createFileRoute('/preventative-maintenance/')({
   component: PreventativeMaintenanceList,
 });
 
