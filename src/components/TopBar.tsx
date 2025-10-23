@@ -1,6 +1,5 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import HomeIcon from '@mui/icons-material/Home';
 import {
   AppBar,
   Button,
@@ -39,11 +38,6 @@ export const TopBar: React.FC = () => {
             flexGrow: 1,
           }}
         >
-          <AppLink to="/landing">
-            <Button startIcon={<HomeIcon />} variant="outlined" size="small">
-              All Pages
-            </Button>
-          </AppLink>
           <AppLink to="/">
             <ImageWrapper height={60}>
               <img src={cleanPath(`${import.meta.env.BASE_URL}/slac.png`)} />
