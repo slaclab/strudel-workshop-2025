@@ -51,7 +51,7 @@ function ScenarioList() {
               <AppLink to="/compare-data/new">
                 {/* CUSTOMIZE: the new button text */}
                 <Button variant="contained" data-testid="cpd-new-button">
-                  New scenario
+                  Add Item
                 </Button>
               </AppLink>
             </Box>

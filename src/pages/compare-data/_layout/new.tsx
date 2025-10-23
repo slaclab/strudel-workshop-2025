@@ -1,4 +1,4 @@
-import { Box, Button, Container, Paper, Stack } from '@mui/material';
+import { Box, Button, Container, Paper, Stack, TextField } from '@mui/material';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { AppLink } from '../../../components/AppLink';
@@ -52,7 +52,7 @@ function NewScenario() {
               <AppLink to="..">
                 {/* CUSTOMIZE: the save button text */}
                 <Button variant="contained" data-testid="cpd-save-button">
-                  Save scenario
+                  Save item
                 </Button>
               </AppLink>
             </Box>
@@ -76,7 +76,32 @@ function NewScenario() {
           }}
         >
           {/* CUSTOMIZE: form elements */}
-          Work in progress
+          <Stack spacing={3}>
+            <TextField
+              label="SLAC ID"
+              variant="outlined"
+              fullWidth
+              placeholder="Enter SLAC ID"
+            />
+            <TextField
+              label="Serial"
+              variant="outlined"
+              fullWidth
+              placeholder="Enter Serial"
+            />
+            <TextField
+              label="Nickname"
+              variant="outlined"
+              fullWidth
+              placeholder="Enter Nickname"
+            />
+            <TextField
+              label="Location"
+              variant="outlined"
+              fullWidth
+              placeholder="Enter Location"
+            />
+          </Stack>
         </Paper>
       </Container>
     </Box>
