@@ -1,8 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Box, Paper, Stack } from '@mui/material';
+import { createFileRoute } from '@tanstack/react-router';
+import React, { useState } from 'react';
+import { FilterContext } from '../../components/FilterContext';
+import { PageHeader } from '../../components/PageHeader';
+import { FilterConfig } from '../../types/filters.types';
+import { DataView } from './-components/DataView';
+import { DataViewHeader } from './-components/DataViewHeader';
+import { FiltersPanel } from './-components/FiltersPanel';
+import { PreviewPanel } from './-components/PreviewPanel';
 
 export const Route = createFileRoute('/explore-data/')({
-  component: RouteComponent,
-})
+  component: DataExplorer,
+});
 
 // CUSTOMIZE: the filter definitions
 const filterConfigs: FilterConfig[] = [
