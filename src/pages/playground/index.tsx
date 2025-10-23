@@ -46,7 +46,7 @@ function Playground() {
             View Add Item Dialog Demo
           </Button>
         </Link>
-        <Link to="/playground/item-detail">
+        <Link to="/playground/item-detail" search={{ data: undefined }}>
           <Button variant="contained" color="primary">
             View Item Detail Page
           </Button>

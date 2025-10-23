@@ -3,7 +3,7 @@ import { GridToolbar } from '@mui/x-data-grid';
 import { PageHeader } from '../../../components/PageHeader';
 import { SciDataGrid } from '../../../components/SciDataGrid';
 import { AppLink } from '../../../components/AppLink';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useCompareData } from '../-context/ContextProvider';
 import { setSelectedRows } from '../-context/actions';
 
@@ -18,6 +18,15 @@ export const Route = createFileRoute('/compare-data/_layout/')({
  */
 function ScenarioList() {
   const { state, dispatch } = useCompareData();
+  const navigate = useNavigate();
+
+  const handleRowClick = (params: any) => {
+    // Navigate to item detail page with the row data as search params
+    navigate({
+      to: '/playground/item-detail',
+      search: { data: JSON.stringify(params.row) },
+    });
+  };
 
   return (
     <Box>
@@ -79,7 +88,7 @@ function ScenarioList() {
             onRowSelectionModelChange={(rows) =>
               dispatch(setSelectedRows(rows))
             }
-            disableRowSelectionOnClick
+            onRowClick={handleRowClick}
             disableDensitySelector
             disableColumnFilter
             initialState={{
@@ -95,6 +104,9 @@ function ScenarioList() {
               '& .MuiDataGrid-toolbarContainer': {
                 padding: 2,
                 paddingBottom: 0,
+              },
+              '& .MuiDataGrid-row': {
+                cursor: 'pointer',
               },
             }}
           />

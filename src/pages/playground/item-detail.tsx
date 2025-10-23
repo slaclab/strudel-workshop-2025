@@ -19,7 +19,11 @@ import {
   AvatarGroup,
   Stack,
 } from '@mui/material';
-import { createFileRoute } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  useNavigate,
+  useSearch,
+} from '@tanstack/react-router';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -31,6 +35,11 @@ import SearchIcon from '@mui/icons-material/Search';
 
 export const Route = createFileRoute('/playground/item-detail')({
   component: ItemDetail,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      data: (search.data as string) || undefined,
+    };
+  },
 });
 
 interface TabPanelProps {
@@ -57,13 +66,22 @@ function TabPanel(props: TabPanelProps) {
 
 function ItemDetail() {
   const [tabValue, setTabValue] = useState(0);
+  const navigate = useNavigate();
+  const searchParams = useSearch({ from: '/playground/item-detail' });
+
+  // Parse the data from search params or use stub data
+  const rowData = searchParams.data ? JSON.parse(searchParams.data) : null;
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
-  // Stub data
-  const itemDetails = {
+  const handleBackClick = () => {
+    navigate({ to: '/compare-data' });
+  };
+
+  // Use data from clicked row if available, otherwise use stub data
+  const itemDetails = rowData || {
     slacId: 'RACK14',
     nickname: 'NODENAME-LOGICAL',
     maker: 'SLAC NATIONAL ACCELERATOR LAB',
@@ -74,6 +92,32 @@ function ItemDetail() {
     subsystem: 'RACK14',
     drawing: '',
   };
+
+  // Extract the name/title for display
+  const itemTitle = rowData?.Nickname || rowData?.ID || 'RACK 14';
+
+  // Define which fields should appear in the Details tab
+  // These match the actual field names from the compare-data CSV
+  const detailFields = [
+    'ID',
+    'Nickname',
+    'Makername',
+    'Model',
+    'Shop',
+    'Class',
+  ];
+
+  // Separate details and additional info
+  const detailsData: Record<string, any> = {};
+  const additionalInfoData: Record<string, any> = {};
+
+  Object.entries(itemDetails).forEach(([key, value]) => {
+    if (detailFields.includes(key)) {
+      detailsData[key] = value;
+    } else {
+      additionalInfoData[key] = value;
+    }
+  });
 
   const attachments = [
     { id: 1, name: 'document1.pdf' },
@@ -115,11 +159,11 @@ function ItemDetail() {
       {/* Header */}
       <Box sx={{ mb: 4 }}>
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
-          <IconButton>
+          <IconButton onClick={handleBackClick}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h4" component="h1" fontWeight="bold">
-            RACK 14
+            {itemTitle}
           </Typography>
           <Chip
             label="CUE Risk"
@@ -190,21 +234,43 @@ function ItemDetail() {
           </Tabs>
           <TabPanel value={tabValue} index={0}>
             <Stack spacing={2}>
-              <DetailRow label="SLAC ID" value={itemDetails.slacId} />
-              <DetailRow label="Nickname" value={itemDetails.nickname} />
-              <DetailRow label="Maker" value={itemDetails.maker} />
-              <DetailRow label="Model" value={itemDetails.model} />
-              <DetailRow label="Revision" value={itemDetails.revision} />
-              <DetailRow label="Serial" value={itemDetails.serial} />
-              <DetailRow label="Cater Shop" value={itemDetails.caterShop} />
-              <DetailRow label="Subsystem" value={itemDetails.subsystem} />
-              <DetailRow label="Drawing" value={itemDetails.drawing} />
+              {Object.entries(detailsData).map(([key, value]) => (
+                <DetailRow
+                  key={key}
+                  label={
+                    key.charAt(0).toUpperCase() +
+                    key
+                      .slice(1)
+                      .replace(/([A-Z])/g, ' $1')
+                      .trim()
+                  }
+                  value={String(value ?? '')}
+                />
+              ))}
             </Stack>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            <Typography color="text.secondary">
-              Additional information content here
-            </Typography>
+            <Stack spacing={2}>
+              {Object.keys(additionalInfoData).length > 0 ? (
+                Object.entries(additionalInfoData).map(([key, value]) => (
+                  <DetailRow
+                    key={key}
+                    label={
+                      key.charAt(0).toUpperCase() +
+                      key
+                        .slice(1)
+                        .replace(/([A-Z])/g, ' $1')
+                        .trim()
+                    }
+                    value={String(value ?? '')}
+                  />
+                ))
+              ) : (
+                <Typography color="text.secondary">
+                  No additional information available
+                </Typography>
+              )}
+            </Stack>
           </TabPanel>
         </Box>
 
