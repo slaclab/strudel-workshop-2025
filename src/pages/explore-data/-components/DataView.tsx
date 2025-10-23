@@ -10,6 +10,7 @@ import { FilterConfig } from '../../../types/filters.types';
 interface DataViewProps {
   filterConfigs: FilterConfig[];
   searchTerm: string;
+  searchColumn: string;
   setPreviewItem: React.Dispatch<React.SetStateAction<any>>;
 }
 /**
@@ -18,6 +19,7 @@ interface DataViewProps {
 export const DataView: React.FC<DataViewProps> = ({
   filterConfigs,
   searchTerm,
+  searchColumn,
   setPreviewItem,
 }) => {
   const { activeFilters } = useFilters();
@@ -81,7 +83,13 @@ export const DataView: React.FC<DataViewProps> = ({
     <>
       {isFetching && <LinearProgress variant="indeterminate" />}
       <SciDataGrid
-        rows={filterData(data, activeFilters, filterConfigs, searchTerm)}
+        rows={filterData(
+          data,
+          activeFilters,
+          filterConfigs,
+          searchTerm,
+          searchColumn
+        )}
         pagination
         paginationMode={queryMode}
         onPaginationModelChange={handlePaginationModelChange}

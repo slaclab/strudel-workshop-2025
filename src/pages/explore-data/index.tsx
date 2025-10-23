@@ -50,6 +50,7 @@ const filterConfigs: FilterConfig[] = [
  */
 function DataExplorer() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchColumn, setSearchColumn] = useState('all');
   const [previewItem, setPreviewItem] = useState<any>();
   const [showFiltersPanel, setShowFiltersPanel] = useState(true);
 
@@ -103,11 +104,14 @@ function DataExplorer() {
               <DataViewHeader
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
+                searchColumn={searchColumn}
+                setSearchColumn={setSearchColumn}
                 onToggleFiltersPanel={handleToggleFilters}
               />
               <DataView
                 filterConfigs={filterConfigs}
                 searchTerm={searchTerm}
+                searchColumn={searchColumn}
                 setPreviewItem={setPreviewItem}
               />
             </Paper>

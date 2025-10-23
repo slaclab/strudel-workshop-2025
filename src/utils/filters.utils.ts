@@ -1,12 +1,30 @@
 import dayjs from 'dayjs';
 import { DataFilter, FilterConfig } from '../types/filters.types';
 
-export const filterBySearchText = (allData: any[], searchText?: string) => {
+export const filterBySearchText = (
+  allData: any[],
+  searchText?: string,
+  searchColumn?: string
+) => {
   let filteredData = allData;
   if (searchText) {
     filteredData = allData.filter((d) => {
-      const rowString = JSON.stringify(d).toLowerCase();
-      return rowString.indexOf(searchText.toLowerCase()) > -1;
+      // If searchColumn is 'all' or not specified, search across all columns
+      if (!searchColumn || searchColumn === 'all') {
+        const rowString = JSON.stringify(d).toLowerCase();
+        return rowString.indexOf(searchText.toLowerCase()) > -1;
+      } else {
+        // Search only in the specified column
+        const columnValue = d[searchColumn];
+        if (columnValue !== undefined && columnValue !== null) {
+          return (
+            String(columnValue)
+              .toLowerCase()
+              .indexOf(searchText.toLowerCase()) > -1
+          );
+        }
+        return false;
+      }
     });
   }
   return filteredData;
@@ -115,9 +133,10 @@ export const filterData = (
   allData: any[],
   filters: DataFilter[],
   filterConfigs: FilterConfig[],
-  searchText?: string
+  searchText?: string,
+  searchColumn?: string
 ) => {
-  const filteredByText = filterBySearchText(allData, searchText);
+  const filteredByText = filterBySearchText(allData, searchText, searchColumn);
   const filteredByTextAndDataFilters = filterByDataFilters(
     filteredByText,
     filters,
