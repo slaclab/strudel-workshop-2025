@@ -15,41 +15,39 @@ export const theme = createTheme({
       paper: '#fff',
     },
     primary: {
-      main: '#1976d2',
-      // Exclude light, dark, or contrastText to have them
-      // calculated automatically based on the main color.
-      light: '#42a5f5',
-      dark: '#1565c0',
+      main: '#8C1515', // Stanford Cardinal Red
+      light: '#B83A4B',
+      dark: '#5F0F0F',
       contrastText: '#fff',
     },
     secondary: {
-      main: '#9c27b0',
-      light: '#ba68c8',
-      dark: '#7b1fa2',
+      main: '#928B81', // Stanford Stone (warm grey)
+      light: '#B5AFA5',
+      dark: '#706B63',
       contrastText: '#fff',
     },
     info: {
-      main: '#0288d1',
-      light: '#03a9f4',
-      dark: '#01579b',
+      main: '#006B81', // Complementary teal
+      light: '#009FB8',
+      dark: '#004A5A',
       contrastText: '#fff',
     },
     success: {
-      main: '#2e7d32',
-      light: '#4caf50',
-      dark: '#1b5e20',
+      main: '#175E54', // Deep teal-green
+      light: '#2C8C7E',
+      dark: '#0F3E37',
       contrastText: '#fff',
     },
     warning: {
-      main: '#ed6c02',
-      light: '#ff9800',
-      dark: '#e65100',
+      main: '#C69214', // Stanford gold
+      light: '#E5AE3A',
+      dark: '#8C6A0F',
       contrastText: '#fff',
     },
     error: {
-      main: '#d32f2f',
-      light: '#ef5350',
-      dark: '#c62828',
+      main: '#8C1515', // Use Cardinal Red for errors too
+      light: '#B83A4B',
+      dark: '#5F0F0F',
       contrastText: '#fff',
     },
     neutral: {
