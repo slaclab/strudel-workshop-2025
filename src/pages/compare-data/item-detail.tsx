@@ -32,6 +32,8 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SearchIcon from '@mui/icons-material/Search';
+import { AddMaintenanceDialog } from '../../components/AddMaintenanceDialog';
+import { AddLocationDialog } from '../../components/AddLocationDialog';
 
 export const Route = createFileRoute('/compare-data/item-detail')({
   component: ItemDetail,
@@ -66,6 +68,22 @@ function TabPanel(props: TabPanelProps) {
 
 function ItemDetail() {
   const [tabValue, setTabValue] = useState(0);
+  const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
+  const [locationDialogOpen, setLocationDialogOpen] = useState(false);
+  const [maintenanceRecords, setMaintenanceRecords] = useState([
+    {
+      maintDate: '09/04/15',
+      repairType: 'INSPECT',
+      reportedProblem: 'Found resistors R18, R31, R111 are wrong value',
+      fix: 'Replaced R18, R31, R111 = 100K. Replaced C20',
+    },
+    {
+      maintDate: '09/04/15',
+      repairType: 'INSPECT',
+      reportedProblem: 'Found resistors R18, R31, R111 are wrong value',
+      fix: 'Replaced R18, R31, R111 = 100K. Replaced C20',
+    },
+  ]);
   const navigate = useNavigate();
   const searchParams = useSearch({ from: '/compare-data/item-detail' });
 
@@ -78,6 +96,26 @@ function ItemDetail() {
 
   const handleBackClick = () => {
     navigate({ to: '/compare-data' });
+  };
+
+  const handleAddMaintenanceClick = () => {
+    setMaintenanceDialogOpen(true);
+  };
+
+  const handleMaintenanceDialogClose = () => {
+    setMaintenanceDialogOpen(false);
+  };
+
+  const handleMaintenanceSubmit = (record: any) => {
+    setMaintenanceRecords([record, ...maintenanceRecords]);
+  };
+
+  const handleAddLocationClick = () => {
+    setLocationDialogOpen(true);
+  };
+
+  const handleLocationDialogClose = () => {
+    setLocationDialogOpen(false);
   };
 
   // Use data from clicked row if available, otherwise use stub data
@@ -135,21 +173,6 @@ function ItemDetail() {
       location: 'B02 - S20 20-5B',
       locDate: '06/24/16',
       parent: 'RFS 20-5B',
-    },
-  ];
-
-  const maintenanceRecords = [
-    {
-      maintDate: '09/04/15',
-      repairType: 'INSPECT',
-      reportedProblem: 'Found resistors R18, R31, R111 are wrong value',
-      fix: 'Replaced R18, R31, R111 = 100K. Replaced C20',
-    },
-    {
-      maintDate: '09/04/15',
-      repairType: 'INSPECT',
-      reportedProblem: 'Found resistors R18, R31, R111 are wrong value',
-      fix: 'Replaced R18, R31, R111 = 100K. Replaced C20',
     },
   ];
 
@@ -364,7 +387,11 @@ function ItemDetail() {
           </Table>
         </TableContainer>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-          <Button startIcon={<AddIcon />} size="small">
+          <Button
+            startIcon={<AddIcon />}
+            size="small"
+            onClick={handleAddLocationClick}
+          >
             Add Location
           </Button>
         </Box>
@@ -425,11 +452,30 @@ function ItemDetail() {
           </Table>
         </TableContainer>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-          <Button startIcon={<AddIcon />} size="small">
+          <Button
+            startIcon={<AddIcon />}
+            size="small"
+            onClick={handleAddMaintenanceClick}
+          >
             Add Maintenance
           </Button>
         </Box>
       </Card>
+
+      {/* Add Maintenance Dialog */}
+      <AddMaintenanceDialog
+        open={maintenanceDialogOpen}
+        onClose={handleMaintenanceDialogClose}
+        equipmentId={itemDetails.ID}
+        onSubmit={handleMaintenanceSubmit}
+      />
+
+      {/* Add Location Dialog */}
+      <AddLocationDialog
+        open={locationDialogOpen}
+        onClose={handleLocationDialogClose}
+        equipmentId={itemDetails.ID}
+      />
 
       {/* Footer */}
       <Stack
