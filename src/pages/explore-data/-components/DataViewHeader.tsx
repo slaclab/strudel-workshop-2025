@@ -1,4 +1,5 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Button,
   MenuItem,
@@ -64,25 +65,48 @@ export const DataViewHeader: React.FC<DataViewHeaderProps> = ({
       <Button startIcon={<FilterListIcon />} onClick={onToggleFiltersPanel}>
         Filters
       </Button>
-      <Select
-        value={searchColumn}
-        onChange={handleColumnChange}
-        size="small"
-        sx={{ minWidth: 150 }}
-      >
-        {columnOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-      <TextField
-        variant="outlined"
-        label="Search"
-        size="small"
-        value={searchTerm}
-        onChange={handleSearch}
-      />
+      <Stack direction="row" spacing={0} alignItems="center">
+        <Select
+          value={searchColumn}
+          onChange={handleColumnChange}
+          size="small"
+          renderValue={() => <SearchIcon fontSize="small" />}
+          sx={{
+            width: 'auto',
+            minWidth: 'unset',
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
+            '& .MuiSelect-select': {
+              paddingRight: '32px !important',
+              paddingLeft: '8px',
+              display: 'flex',
+              alignItems: 'center',
+            },
+            '& fieldset': {
+              borderRight: 'none',
+            },
+          }}
+        >
+          {columnOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
+        <TextField
+          variant="outlined"
+          label="Search"
+          size="small"
+          value={searchTerm}
+          onChange={handleSearch}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+            },
+          }}
+        />
+      </Stack>
     </Stack>
   );
 };
