@@ -18,17 +18,31 @@ import {
   Stack,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { useAppState } from '../context/ContextProvider';
+import { addPreventativeMaintenance } from '../context/actions';
 
 interface AddPreventativeMaintenanceDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
+// Item mapping to get names
+const ITEM_MAP: Record<string, string> = {
+  'CAM-001': 'High-Speed Camera A',
+  'OSC-002': 'Oscilloscope B',
+  'AQM-003': 'Air Quality Monitor',
+  'GEN-004': 'Portable Generator',
+  'DAS-005': 'Data Acquisition System',
+  'EMS-006': 'Electron Microscope',
+  'CLM-007': 'Climate Chamber',
+  'LSR-008': 'Laser Cutter',
+};
+
 export const AddPreventativeMaintenanceDialog: React.FC<
   AddPreventativeMaintenanceDialogProps
 > = ({ open, onClose }) => {
+  const { dispatch } = useAppState();
   const [item, setItem] = useState('');
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('ACTIVE');
@@ -40,9 +54,35 @@ export const AddPreventativeMaintenanceDialog: React.FC<
   const [instructions, setInstructions] = useState('');
 
   const handleSubmit = () => {
-    // Handle form submission
-    // TODO: Implement form submission logic
-    onClose();
+    // Validate required fields
+    if (!item || !title || !startDate || !dateDue || !personResponsible) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Generate a unique ID
+    const id = `pm-${Date.now()}`;
+
+    // Create the new maintenance item
+    const newItem = {
+      id,
+      title,
+      item_id: item,
+      item_name: ITEM_MAP[item],
+      status,
+      repeat_number: parseInt(repeatNumber),
+      repeat_unit: repeatUnit,
+      start_date: startDate,
+      next_due_date: dateDue,
+      person_responsible: personResponsible,
+      instructions,
+    };
+
+    // Dispatch the action to add the item
+    dispatch(addPreventativeMaintenance(newItem));
+
+    // Reset form and close
+    handleCancel();
   };
 
   const handleCancel = () => {
@@ -180,13 +220,6 @@ export const AddPreventativeMaintenanceDialog: React.FC<
             InputLabelProps={{
               shrink: true,
             }}
-            InputProps={{
-              endAdornment: (
-                <IconButton size="small">
-                  <CalendarTodayIcon fontSize="small" />
-                </IconButton>
-              ),
-            }}
           />
 
           {/* Date Due */}
@@ -200,17 +233,10 @@ export const AddPreventativeMaintenanceDialog: React.FC<
             InputLabelProps={{
               shrink: true,
             }}
-            InputProps={{
-              endAdornment: (
-                <IconButton size="small">
-                  <CalendarTodayIcon fontSize="small" />
-                </IconButton>
-              ),
-            }}
           />
 
           {/* Person(s) Responsible */}
-          <FormControl fullWidth>
+          <FormControl fullWidth required>
             <InputLabel id="person-responsible-label">
               Person(s) Responsible
             </InputLabel>

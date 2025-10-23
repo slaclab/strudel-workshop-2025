@@ -1,9 +1,14 @@
 import React, { useReducer, useContext } from 'react';
-import { AppAction, AppActionType } from './actions';
+import {
+  AppAction,
+  AppActionType,
+  PreventativeMaintenanceItem,
+} from './actions';
 
 export interface AppState {
   appTitle: string;
   apiModalOpen: boolean;
+  preventativeMaintenanceItems: PreventativeMaintenanceItem[];
 }
 
 /**
@@ -23,6 +28,7 @@ const AppContext = React.createContext<
 const initialState: AppState = {
   appTitle: '',
   apiModalOpen: false,
+  preventativeMaintenanceItems: [],
 };
 
 const initState = (state: AppState, props: AppProviderProps) => {
@@ -45,6 +51,15 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return {
         ...state,
         apiModalOpen: false,
+      };
+    }
+    case AppActionType.ADD_PREVENTATIVE_MAINTENANCE: {
+      return {
+        ...state,
+        preventativeMaintenanceItems: [
+          ...state.preventativeMaintenanceItems,
+          action.payload,
+        ],
       };
     }
     default: {
