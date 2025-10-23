@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Box,
   Container,
@@ -32,6 +32,9 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SearchIcon from '@mui/icons-material/Search';
+import { AddMaintenanceDialog } from '../../components/AddMaintenanceDialog';
+import { AddLocationDialog } from '../../components/AddLocationDialog';
+import { useDataFromSource } from '../../hooks/useDataFromSource';
 
 export const Route = createFileRoute('/playground/item-detail')({
   component: ItemDetail,
@@ -64,10 +67,39 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+interface MaintenanceRecord {
+  equipmentId: string;
+  maintDate: string;
+  repairType: string;
+  reportedProblem: string;
+  fix: string;
+}
+
+interface LocationRecord {
+  equipmentId: string;
+  state: string;
+  location: string;
+  locDate: string;
+  parent: string;
+}
+
 function ItemDetail() {
   const [tabValue, setTabValue] = useState(0);
+  const [isMaintenanceDialogOpen, setIsMaintenanceDialogOpen] = useState(false);
+  const [isLocationDialogOpen, setIsLocationDialogOpen] = useState(false);
+  const [newMaintenanceRecords, setNewMaintenanceRecords] = useState<
+    MaintenanceRecord[]
+  >([]);
   const navigate = useNavigate();
   const searchParams = useSearch({ from: '/playground/item-detail' });
+
+  // Load maintenance and location data from CSV
+  const maintenanceData = useDataFromSource('data/maintenance.csv') as
+    | MaintenanceRecord[]
+    | undefined;
+  const locationData = useDataFromSource('data/locations.csv') as
+    | LocationRecord[]
+    | undefined;
 
   // Parse the data from search params or use stub data
   const rowData = searchParams.data ? JSON.parse(searchParams.data) : null;
@@ -93,8 +125,9 @@ function ItemDetail() {
     drawing: '',
   };
 
-  // Extract the name/title for display
+  // Extract the name/title and ID for display
   const itemTitle = rowData?.Nickname || rowData?.ID || 'RACK 14';
+  const equipmentId = rowData?.ID || 'RACK14';
 
   // Define which fields should appear in the Details tab
   // These match the actual field names from the compare-data CSV
@@ -124,35 +157,36 @@ function ItemDetail() {
     { id: 2, name: 'document2.pdf' },
   ];
 
-  const locations = [
-    {
-      state: 'IN USE',
-      location: 'B02 - S20 20-5B',
-      locDate: '06/24/16',
-      parent: 'RFS 20-5B',
-    },
-    {
-      state: 'IN USE',
-      location: 'B02 - S20 20-5B',
-      locDate: '06/24/16',
-      parent: 'RFS 20-5B',
-    },
-  ];
+  // Filter maintenance records for this equipment and combine with new records
+  const maintenanceRecords = useMemo(() => {
+    const csvRecords =
+      maintenanceData?.filter((record) => record.equipmentId === equipmentId) ||
+      [];
+    return [...csvRecords, ...newMaintenanceRecords];
+  }, [maintenanceData, equipmentId, newMaintenanceRecords]);
 
-  const maintenanceRecords = [
-    {
-      maintDate: '09/04/15',
-      repairType: 'INSPECT',
-      reportedProblem: 'Found resistors R18, R31, R111 are wrong value',
-      fix: 'Replaced R18, R31, R111 = 100K. Replaced C20',
-    },
-    {
-      maintDate: '09/04/15',
-      repairType: 'INSPECT',
-      reportedProblem: 'Found resistors R18, R31, R111 are wrong value',
-      fix: 'Replaced R18, R31, R111 = 100K. Replaced C20',
-    },
-  ];
+  // Filter location records for this equipment
+  const locationRecords = useMemo(() => {
+    return (
+      locationData?.filter((record) => record.equipmentId === equipmentId) || []
+    );
+  }, [locationData, equipmentId]);
+
+  const handleAddMaintenance = (
+    newRecord: Omit<MaintenanceRecord, 'equipmentId'>
+  ) => {
+    const recordWithEquipmentId: MaintenanceRecord = {
+      ...newRecord,
+      equipmentId,
+    };
+    setNewMaintenanceRecords((prev) => [...prev, recordWithEquipmentId]);
+  };
+
+  const handleAddLocation = () => {
+    // The dialog handles its own submission
+    // We'll update this if we need to handle the records locally
+    setIsLocationDialogOpen(false);
+  };
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -346,7 +380,7 @@ function ItemDetail() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {locations.map((location, index) => (
+              {locationRecords.map((location, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     <Chip label={location.state} color="success" size="small" />
@@ -365,7 +399,11 @@ function ItemDetail() {
           </Table>
         </TableContainer>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-          <Button startIcon={<AddIcon />} size="small">
+          <Button
+            startIcon={<AddIcon />}
+            size="small"
+            onClick={() => setIsLocationDialogOpen(true)}
+          >
             Add Location
           </Button>
         </Box>
@@ -426,11 +464,30 @@ function ItemDetail() {
           </Table>
         </TableContainer>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-          <Button startIcon={<AddIcon />} size="small">
+          <Button
+            startIcon={<AddIcon />}
+            size="small"
+            onClick={() => setIsMaintenanceDialogOpen(true)}
+          >
             Add Maintenance
           </Button>
         </Box>
       </Card>
+
+      {/* Add Maintenance Dialog */}
+      <AddMaintenanceDialog
+        open={isMaintenanceDialogOpen}
+        onClose={() => setIsMaintenanceDialogOpen(false)}
+        equipmentId={equipmentId}
+        onSubmit={handleAddMaintenance}
+      />
+
+      {/* Add Location Dialog */}
+      <AddLocationDialog
+        open={isLocationDialogOpen}
+        onClose={handleAddLocation}
+        equipmentId={equipmentId}
+      />
 
       {/* Footer */}
       <Stack
