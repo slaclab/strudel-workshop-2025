@@ -32,6 +32,7 @@ function Playground() {
        * See MUI's component library: https://mui.com/material-ui/all-components/
        */}
       <h1>Playground</h1>
+      <p>Testing commits</p>
       <Stack
         direction="row"
         spacing={2}
