@@ -1,24 +1,12 @@
-import {
-  Box,
-  Button,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  MenuItem,
-  Paper,
-  Stack,
-  TextField,
-} from '@mui/material';
+import { Box, Button, Container, Paper, Stack } from '@mui/material';
 import { GridToolbar } from '@mui/x-data-grid';
 import { PageHeader } from '../../../components/PageHeader';
 import { SciDataGrid } from '../../../components/SciDataGrid';
-import { AppLink } from '../../../components/AppLink';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useCompareData } from '../-context/ContextProvider';
 import { setSelectedRows } from '../-context/actions';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { BulkEditDialog } from '../../../components/BulkEditDialog';
 
 export const Route = createFileRoute('/compare-data/_layout/')({
   component: ScenarioList,
@@ -32,12 +20,8 @@ export const Route = createFileRoute('/compare-data/_layout/')({
 function ScenarioList() {
   const { state, dispatch } = useCompareData();
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [availableNicknames, setAvailableNicknames] = useState<string[]>([]);
-  const [selectedNickname, setSelectedNickname] = useState('');
-  const [slacId, setSlacId] = useState('');
-  const [serial, setSerial] = useState('');
-  const [location, setLocation] = useState('');
+  const [bulkEditOpen, setBulkEditOpen] = useState(false);
+  const [addItemMode, setAddItemMode] = useState(false);
 
   const handleRowClick = (params: any) => {
     // Navigate to item detail page with the row data as search params
@@ -47,90 +31,19 @@ function ScenarioList() {
     });
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleBulkEditClick = () => {
+    setAddItemMode(false);
+    setBulkEditOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    // Reset form fields
-    setSelectedNickname('');
-    setSlacId('');
-    setSerial('');
-    setLocation('');
+  const handleAddItemClick = () => {
+    setAddItemMode(true);
+    setBulkEditOpen(true);
   };
 
-  const handleSave = () => {
-    // TODO: Implement save logic here
-    // Save logic would go here to persist the data
-    handleCloseModal();
-  };
-
-  /**
-   * Load available nicknames from the CSV file
-   */
-  useEffect(() => {
-    const loadNicknames = async () => {
-      try {
-        const response = await fetch('/data/DEPOT (last year).csv');
-        const csvText = await response.text();
-
-        // Parse CSV properly handling quoted fields
-        const lines = csvText.split('\n');
-        const nicknames = new Set<string>();
-
-        // Skip header row, start from index 1
-        for (let i = 1; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (!line) continue;
-
-          // Parse CSV line with proper quote handling
-          const columns = parseCSVLine(line);
-          if (columns.length > 8) {
-            const nickname = columns[8].trim();
-            if (nickname) {
-              nicknames.add(nickname);
-            }
-          }
-        }
-
-        // Convert Set to sorted array
-        const sortedNicknames = Array.from(nicknames).sort();
-        setAvailableNicknames(sortedNicknames);
-      } catch (error) {
-        // Error loading nicknames - fail silently
-        setAvailableNicknames([]);
-      }
-    };
-
-    loadNicknames();
-  }, []);
-
-  /**
-   * Parse a CSV line handling quoted fields with commas
-   */
-  const parseCSVLine = (line: string): string[] => {
-    const result: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        result.push(current);
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-
-    // Push the last field
-    result.push(current);
-
-    return result;
+  const handleBulkEditClose = () => {
+    setBulkEditOpen(false);
+    setAddItemMode(false);
   };
 
   return (
@@ -143,30 +56,32 @@ function ScenarioList() {
         actions={
           <Stack direction="row">
             <Box>
-              {/* CUSTOMIZE: the compare button text */}
-              {state.selectedRows.length < 2 && (
+              {/* Bulk Edit button - only enabled when items are selected */}
+              {state.selectedRows.length === 0 && (
                 <Button
                   variant="outlined"
                   disabled
-                  data-testid="cpd-compare-button"
+                  data-testid="cpd-bulk-edit-button"
                 >
-                  Compare scenarios
+                  Bulk Edit
                 </Button>
               )}
-              {state.selectedRows.length > 1 && (
-                <AppLink to="/compare-data/compare">
-                  <Button variant="contained" data-testid="cpd-compare-button">
-                    Compare scenarios ({state.selectedRows.length})
-                  </Button>
-                </AppLink>
+              {state.selectedRows.length > 0 && (
+                <Button
+                  variant="contained"
+                  data-testid="cpd-bulk-edit-button"
+                  onClick={handleBulkEditClick}
+                >
+                  Bulk Edit ({state.selectedRows.length})
+                </Button>
               )}
             </Box>
             <Box>
-              {/* CUSTOMIZE: the new button text */}
+              {/* Add Item button - opens bulk edit dialog with blank fields */}
               <Button
                 variant="contained"
-                data-testid="cpd-new-button"
-                onClick={handleOpenModal}
+                data-testid="cpd-add-item-button"
+                onClick={handleAddItemClick}
               >
                 Add Item
               </Button>
@@ -220,66 +135,18 @@ function ScenarioList() {
         </Paper>
       </Container>
 
-      {/* Add Item Modal */}
-      <Dialog
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>New Scenario</DialogTitle>
-        <DialogContent>
-          <Stack spacing={3} sx={{ marginTop: 1 }}>
-            <TextField
-              label="SLAC ID"
-              variant="outlined"
-              fullWidth
-              placeholder="Enter SLAC ID"
-              value={slacId}
-              onChange={(e) => setSlacId(e.target.value)}
-            />
-            <TextField
-              label="Serial"
-              variant="outlined"
-              fullWidth
-              placeholder="Enter Serial"
-              value={serial}
-              onChange={(e) => setSerial(e.target.value)}
-            />
-            <TextField
-              select
-              label="Nickname"
-              variant="outlined"
-              fullWidth
-              value={selectedNickname}
-              onChange={(e) => setSelectedNickname(e.target.value)}
-              placeholder="Select Nickname"
-            >
-              {availableNicknames.map((nickname) => (
-                <MenuItem key={nickname} value={nickname}>
-                  {nickname}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              label="Location"
-              variant="outlined"
-              fullWidth
-              placeholder="Enter Location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal} color="warning">
-            Cancel
-          </Button>
-          <Button onClick={handleSave} variant="contained">
-            Save Item
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* Bulk Edit / Add Item Dialog */}
+      <BulkEditDialog
+        open={bulkEditOpen}
+        onClose={handleBulkEditClose}
+        selectedData={
+          addItemMode
+            ? undefined
+            : state.data.filter((row) =>
+                state.selectedRows.includes(row[state.dataIdField])
+              )
+        }
+      />
     </Box>
   );
 }
