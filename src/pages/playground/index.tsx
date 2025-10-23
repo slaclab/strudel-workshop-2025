@@ -51,6 +51,11 @@ function Playground() {
             View Item Detail Page
           </Button>
         </Link>
+        <Link to="/monitor-activities/preventative-maintenance">
+          <Button variant="contained" color="primary">
+            View Preventative Maintenance
+          </Button>
+        </Link>
       </Stack>
       <Stack
         direction="row"
