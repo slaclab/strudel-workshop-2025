@@ -13,53 +13,57 @@ export const Route = createFileRoute('/compare-data/_layout')({
  */
 function CompareDataWrapper() {
   // CUSTOMIZE: the data source for the main data table.
-  const scenarios = useDataFromSource('dummy-data/scenarios.json');
+  const scenarios = useDataFromSource('data/DEPOT (last year).csv');
 
   // CUSTOMIZE: the columns for the main data table
   const columns = [
     {
-      field: 'name',
-      headerName: 'Scenario Name',
+      field: 'ID',
+      headerName: 'ID',
+      width: 120,
+    },
+    {
+      field: 'Nickname',
+      headerName: 'Nickname',
+      width: 250,
+    },
+    {
+      field: 'Model',
+      headerName: 'Model',
       width: 200,
     },
     {
-      field: 'description',
-      headerName: 'Description',
+      field: 'Makername',
+      headerName: 'Manufacturer',
       width: 200,
     },
     {
-      field: 'analysis_type',
-      headerName: 'Analysis Type',
+      field: 'Location',
+      headerName: 'Location',
       width: 200,
     },
     {
-      field: 'volumetric_flow_rate',
-      headerName: 'Volumetric Flow Rate',
-      width: 200,
+      field: 'State',
+      headerName: 'State',
+      width: 150,
       isComparisonMetric: true,
     },
     {
-      field: 'tss_concentration',
-      headerName: 'TSS Concentration',
-      width: 200,
+      field: 'Shop',
+      headerName: 'Shop',
+      width: 150,
       isComparisonMetric: true,
     },
     {
-      field: 'cod_concentration',
-      headerName: 'COD Concentration',
-      width: 200,
+      field: 'Class',
+      headerName: 'Class',
+      width: 150,
       isComparisonMetric: true,
     },
     {
-      field: 'tkn_concentration',
-      headerName: 'TKN Concentration',
-      width: 200,
-      isComparisonMetric: true,
-    },
-    {
-      field: 'acetic_acid_concentration',
-      headerName: 'Acetic Acid Concentration',
-      width: 200,
+      field: 'LastDate',
+      headerName: 'Last Date',
+      width: 150,
       isComparisonMetric: true,
     },
   ];
@@ -70,7 +74,7 @@ function CompareDataWrapper() {
         data={scenarios || []}
         columns={columns}
         // CUSTOMIZE: the unique identifier field in the data
-        dataIdField="id"
+        dataIdField="ID"
       >
         <Outlet />
       </CompareDataProvider>
