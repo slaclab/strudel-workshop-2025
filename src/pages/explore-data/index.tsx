@@ -16,51 +16,29 @@ export const Route = createFileRoute('/explore-data/')({
 // CUSTOMIZE: the filter definitions
 const filterConfigs: FilterConfig[] = [
   {
-    field: 'Discovery Method',
-    label: 'Discovery Method',
+    field: 'State',
+    label: 'State',
     operator: 'contains-one-of',
     filterComponent: 'CheckboxList',
     filterProps: {
       options: [
         {
-          label: 'Astrometry',
-          value: 'Astrometry',
+          label: 'New',
+          value: 'NEW',
         },
         {
-          label: 'Disk Kinematics',
-          value: 'Disk Kinematics',
+          label: 'Ready',
+          value: 'READY',
         },
         {
-          label: 'Eclipse Timing Variations',
-          value: 'Eclipse Timing Variations',
+          label: 'Spare',
+          value: 'SPARE',
         },
         {
-          label: 'Imaging',
-          value: 'Imaging',
-        },
-        {
-          label: 'Microlensing',
-          value: 'Microlensing',
-        },
-        {
-          label: 'Radial Velocity',
-          value: 'Radial Velocity',
-        },
-        {
-          label: 'Transit',
-          value: 'Transit',
+          label: 'Maintenance',
+          value: 'MAINT',
         },
       ],
-    },
-  },
-  {
-    field: 'Mass',
-    label: 'Mass',
-    operator: 'between-inclusive',
-    filterComponent: 'RangeSlider',
-    filterProps: {
-      min: 0,
-      max: 10000,
     },
   },
 ];
