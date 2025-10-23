@@ -40,7 +40,7 @@ export const TopBar: React.FC = () => {
           </AppLink>
           <AppLink to="/">
             <Typography variant="h6" component="div" fontWeight="bold">
-              My Project
+              SLAC DEPOT Prototype
             </Typography>
           </AppLink>
         </Stack>
