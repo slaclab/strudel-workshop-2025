@@ -19,6 +19,7 @@ import { Route as SearchDataRepositoriesIndexImport } from './pages/search-data-
 import { Route as PlaygroundIndexImport } from './pages/playground/index';
 import { Route as MonitorActivitiesIndexImport } from './pages/monitor-activities/index';
 import { Route as ExploreDataIndexImport } from './pages/explore-data/index';
+import { Route as AdminIndexImport } from './pages/admin/index';
 import { Route as SearchDataRepositoriesIdImport } from './pages/search-data-repositories/$id';
 import { Route as RunComputationLayoutImport } from './pages/run-computation/_layout';
 import { Route as PlaygroundItemDetailImport } from './pages/playground/item-detail';
@@ -105,6 +106,12 @@ const MonitorActivitiesIndexRoute = MonitorActivitiesIndexImport.update({
 const ExploreDataIndexRoute = ExploreDataIndexImport.update({
   id: '/explore-data/',
   path: '/explore-data/',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const AdminIndexRoute = AdminIndexImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -351,6 +358,13 @@ declare module '@tanstack/react-router' {
       path: '/search-data-repositories/$id';
       fullPath: '/search-data-repositories/$id';
       preLoaderRoute: typeof SearchDataRepositoriesIdImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/admin/': {
+      id: '/admin/';
+      path: '/admin';
+      fullPath: '/admin';
+      preLoaderRoute: typeof AdminIndexImport;
       parentRoute: typeof rootRoute;
     };
     '/explore-data/': {
@@ -616,6 +630,7 @@ export interface FileRoutesByFullPath {
   '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
+  '/admin': typeof AdminIndexRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
   '/monitor-activities': typeof MonitorActivitiesIndexRoute;
   '/playground': typeof PlaygroundIndexRoute;
@@ -647,6 +662,7 @@ export interface FileRoutesByTo {
   '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationLayoutIndexRoute;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
+  '/admin': typeof AdminIndexRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
   '/monitor-activities': typeof MonitorActivitiesIndexRoute;
   '/playground': typeof PlaygroundIndexRoute;
@@ -679,6 +695,7 @@ export interface FileRoutesById {
   '/run-computation': typeof RunComputationRouteWithChildren;
   '/run-computation/_layout': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
+  '/admin/': typeof AdminIndexRoute;
   '/explore-data/': typeof ExploreDataIndexRoute;
   '/monitor-activities/': typeof MonitorActivitiesIndexRoute;
   '/playground/': typeof PlaygroundIndexRoute;
@@ -713,6 +730,7 @@ export interface FileRouteTypes {
     | '/playground/item-detail'
     | '/run-computation'
     | '/search-data-repositories/$id'
+    | '/admin'
     | '/explore-data'
     | '/monitor-activities'
     | '/playground'
@@ -743,6 +761,7 @@ export interface FileRouteTypes {
     | '/playground/item-detail'
     | '/run-computation'
     | '/search-data-repositories/$id'
+    | '/admin'
     | '/explore-data'
     | '/monitor-activities'
     | '/playground'
@@ -773,6 +792,7 @@ export interface FileRouteTypes {
     | '/run-computation'
     | '/run-computation/_layout'
     | '/search-data-repositories/$id'
+    | '/admin/'
     | '/explore-data/'
     | '/monitor-activities/'
     | '/playground/'
@@ -806,6 +826,7 @@ export interface RootRouteChildren {
   PlaygroundItemDetailRoute: typeof PlaygroundItemDetailRoute;
   RunComputationRoute: typeof RunComputationRouteWithChildren;
   SearchDataRepositoriesIdRoute: typeof SearchDataRepositoriesIdRoute;
+  AdminIndexRoute: typeof AdminIndexRoute;
   ExploreDataIndexRoute: typeof ExploreDataIndexRoute;
   MonitorActivitiesIndexRoute: typeof MonitorActivitiesIndexRoute;
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute;
@@ -824,6 +845,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlaygroundItemDetailRoute: PlaygroundItemDetailRoute,
   RunComputationRoute: RunComputationRouteWithChildren,
   SearchDataRepositoriesIdRoute: SearchDataRepositoriesIdRoute,
+  AdminIndexRoute: AdminIndexRoute,
   ExploreDataIndexRoute: ExploreDataIndexRoute,
   MonitorActivitiesIndexRoute: MonitorActivitiesIndexRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
@@ -851,6 +873,7 @@ export const routeTree = rootRoute
         "/playground/item-detail",
         "/run-computation",
         "/search-data-repositories/$id",
+        "/admin/",
         "/explore-data/",
         "/monitor-activities/",
         "/playground/",
@@ -925,6 +948,9 @@ export const routeTree = rootRoute
     },
     "/search-data-repositories/$id": {
       "filePath": "search-data-repositories/$id.tsx"
+    },
+    "/admin/": {
+      "filePath": "admin/index.tsx"
     },
     "/explore-data/": {
       "filePath": "explore-data/index.tsx"
