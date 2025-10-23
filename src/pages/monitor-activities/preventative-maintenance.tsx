@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import {
   Button,
@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDataFromSource } from '../../hooks/useDataFromSource';
 import { AddPreventativeMaintenanceDialog } from '../../components/AddPreventativeMaintenanceDialog';
+import { useAppState } from '../../context/ContextProvider';
 
 export const Route = createFileRoute(
   '/monitor-activities/preventative-maintenance'
@@ -111,10 +112,18 @@ function PreventativeMaintenanceList() {
     mouseY: number;
     itemId: string;
   } | null>(null);
-  const maintenanceData = useDataFromSource(
+  const dummyData = useDataFromSource(
     'dummy-data/preventative_maintenance.json'
   );
+  const { state } = useAppState();
   const navigate = useNavigate();
+
+  // Combine dummy data with context data
+  const maintenanceData = useMemo(() => {
+    const dummy = dummyData || [];
+    const contextItems = state.preventativeMaintenanceItems || [];
+    return [...dummy, ...contextItems];
+  }, [dummyData, state.preventativeMaintenanceItems]);
 
   const handleOpenDialog = () => {
     setDialogOpen(true);

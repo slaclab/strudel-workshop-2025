@@ -35,7 +35,7 @@ function ScenarioComparison() {
     <Box>
       <PageHeader
         // CUSTOMIZE: the title that displays at the top of the page
-        pageTitle="Compare Data App"
+        pageTitle="DEPOT Items"
         // CUSTOMIZE: the subtitle that displays underneath the title
         description="Description of this app section"
         actions={

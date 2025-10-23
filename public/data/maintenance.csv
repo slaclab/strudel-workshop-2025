@@ -1,0 +1,7 @@
+equipmentId,maintDate,repairType,reportedProblem,fix
+RACK14,2015-09-04,INSPECT,"Found resistors R18, R31, R111 are wrong value","Replaced R18, R31, R111 = 100K. Replaced C20"
+RACK14,2015-09-04,INSPECT,"Found resistors R18, R31, R111 are wrong value","Replaced R18, R31, R111 = 100K. Replaced C20"
+RACK15,2016-03-15,REPAIR,"Power supply failure","Replaced power supply unit"
+RACK15,2016-08-22,CALIBRATE,"Voltage readings off by 5%","Recalibrated voltage sensors"
+RACK16,2017-01-10,CLEAN,"Dust buildup in cooling fans","Cleaned all cooling fans and air vents"
+RACK16,2017-06-05,REPLACE,"Fan bearing noise","Replaced cooling fan #3"
