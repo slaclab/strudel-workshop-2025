@@ -24,6 +24,7 @@ import { Route as SearchDataRepositoriesIdImport } from './pages/search-data-rep
 import { Route as RunComputationLayoutImport } from './pages/run-computation/_layout';
 import { Route as PlaygroundItemDetailImport } from './pages/playground/item-detail';
 import { Route as PlaygroundAddItemDemoImport } from './pages/playground/add-item-demo';
+import { Route as MonitorActivitiesPreventativeMaintenanceImport } from './pages/monitor-activities/preventative-maintenance';
 import { Route as MonitorActivitiesDetailImport } from './pages/monitor-activities/detail';
 import { Route as MonitorActivitiesCalendarImport } from './pages/monitor-activities/calendar';
 import { Route as ExploreDataIdImport } from './pages/explore-data/$id';
@@ -137,6 +138,13 @@ const PlaygroundAddItemDemoRoute = PlaygroundAddItemDemoImport.update({
   path: '/playground/add-item-demo',
   getParentRoute: () => rootRoute,
 } as any);
+
+const MonitorActivitiesPreventativeMaintenanceRoute =
+  MonitorActivitiesPreventativeMaintenanceImport.update({
+    id: '/monitor-activities/preventative-maintenance',
+    path: '/monitor-activities/preventative-maintenance',
+    getParentRoute: () => rootRoute,
+  } as any);
 
 const MonitorActivitiesDetailRoute = MonitorActivitiesDetailImport.update({
   id: '/monitor-activities/detail',
@@ -323,6 +331,13 @@ declare module '@tanstack/react-router' {
       path: '/monitor-activities/detail';
       fullPath: '/monitor-activities/detail';
       preLoaderRoute: typeof MonitorActivitiesDetailImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/monitor-activities/preventative-maintenance': {
+      id: '/monitor-activities/preventative-maintenance';
+      path: '/monitor-activities/preventative-maintenance';
+      fullPath: '/monitor-activities/preventative-maintenance';
+      preLoaderRoute: typeof MonitorActivitiesPreventativeMaintenanceImport;
       parentRoute: typeof rootRoute;
     };
     '/playground/add-item-demo': {
@@ -626,6 +641,7 @@ export interface FileRoutesByFullPath {
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
+  '/monitor-activities/preventative-maintenance': typeof MonitorActivitiesPreventativeMaintenanceRoute;
   '/playground/add-item-demo': typeof PlaygroundAddItemDemoRoute;
   '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationLayoutRouteWithChildren;
@@ -658,6 +674,7 @@ export interface FileRoutesByTo {
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
+  '/monitor-activities/preventative-maintenance': typeof MonitorActivitiesPreventativeMaintenanceRoute;
   '/playground/add-item-demo': typeof PlaygroundAddItemDemoRoute;
   '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationLayoutIndexRoute;
@@ -690,6 +707,7 @@ export interface FileRoutesById {
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
+  '/monitor-activities/preventative-maintenance': typeof MonitorActivitiesPreventativeMaintenanceRoute;
   '/playground/add-item-demo': typeof PlaygroundAddItemDemoRoute;
   '/playground/item-detail': typeof PlaygroundItemDetailRoute;
   '/run-computation': typeof RunComputationRouteWithChildren;
@@ -726,6 +744,7 @@ export interface FileRouteTypes {
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
+    | '/monitor-activities/preventative-maintenance'
     | '/playground/add-item-demo'
     | '/playground/item-detail'
     | '/run-computation'
@@ -757,6 +776,7 @@ export interface FileRouteTypes {
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
+    | '/monitor-activities/preventative-maintenance'
     | '/playground/add-item-demo'
     | '/playground/item-detail'
     | '/run-computation'
@@ -787,6 +807,7 @@ export interface FileRouteTypes {
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
+    | '/monitor-activities/preventative-maintenance'
     | '/playground/add-item-demo'
     | '/playground/item-detail'
     | '/run-computation'
@@ -822,6 +843,7 @@ export interface RootRouteChildren {
   ExploreDataIdRoute: typeof ExploreDataIdRoute;
   MonitorActivitiesCalendarRoute: typeof MonitorActivitiesCalendarRoute;
   MonitorActivitiesDetailRoute: typeof MonitorActivitiesDetailRoute;
+  MonitorActivitiesPreventativeMaintenanceRoute: typeof MonitorActivitiesPreventativeMaintenanceRoute;
   PlaygroundAddItemDemoRoute: typeof PlaygroundAddItemDemoRoute;
   PlaygroundItemDetailRoute: typeof PlaygroundItemDetailRoute;
   RunComputationRoute: typeof RunComputationRouteWithChildren;
@@ -841,6 +863,8 @@ const rootRouteChildren: RootRouteChildren = {
   ExploreDataIdRoute: ExploreDataIdRoute,
   MonitorActivitiesCalendarRoute: MonitorActivitiesCalendarRoute,
   MonitorActivitiesDetailRoute: MonitorActivitiesDetailRoute,
+  MonitorActivitiesPreventativeMaintenanceRoute:
+    MonitorActivitiesPreventativeMaintenanceRoute,
   PlaygroundAddItemDemoRoute: PlaygroundAddItemDemoRoute,
   PlaygroundItemDetailRoute: PlaygroundItemDetailRoute,
   RunComputationRoute: RunComputationRouteWithChildren,
@@ -869,6 +893,7 @@ export const routeTree = rootRoute
         "/explore-data/$id",
         "/monitor-activities/calendar",
         "/monitor-activities/detail",
+        "/monitor-activities/preventative-maintenance",
         "/playground/add-item-demo",
         "/playground/item-detail",
         "/run-computation",
@@ -925,6 +950,9 @@ export const routeTree = rootRoute
     },
     "/monitor-activities/detail": {
       "filePath": "monitor-activities/detail.tsx"
+    },
+    "/monitor-activities/preventative-maintenance": {
+      "filePath": "monitor-activities/preventative-maintenance.tsx"
     },
     "/playground/add-item-demo": {
       "filePath": "playground/add-item-demo.tsx"
