@@ -169,7 +169,7 @@ function PreventativeMaintenanceList() {
         if (item) {
           // Navigate with the item data
           navigate({
-            to: '/playground/item-detail',
+            to: '/compare-data/item-detail',
             search: { data: JSON.stringify(item) },
           });
           handleCloseContextMenu();
@@ -179,7 +179,7 @@ function PreventativeMaintenanceList() {
 
       // Fallback: navigate with empty data if item not found
       navigate({
-        to: '/playground/item-detail',
+        to: '/compare-data/item-detail',
         search: { data: JSON.stringify({}) },
       });
       handleCloseContextMenu();
